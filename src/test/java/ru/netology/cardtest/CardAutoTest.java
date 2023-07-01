@@ -8,11 +8,9 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-import static com.codeborne.selenide.Condition.visible;
-import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static com.codeborne.selenide.files.DownloadActions.click;
+
 
 public class CardAutoTest {
     public String generateDate(int daysToAdd, String pattern) {
@@ -31,7 +29,9 @@ public class CardAutoTest {
         $("[data-test-id=name] input").setValue("Гусева Екатерина");
         $("[name='phone']").setValue("+79872533325");
         $("[data-test-id=agreement").click();
-        $(byClassName("button")).click();
-        $("[data-test-id=notification").shouldHave(Condition.text("Встреча успешно забронирована на " + meetDate), Duration.ofSeconds(15)).shouldBe(visible);
+        $("button.button").click();
+        $(".notification__content")
+                .shouldBe(Condition.visible, Duration.ZERO.ofSeconds(15))
+                .shouldHave(Condition.exactText("Встреча успешно забронирована на " + meetDate));
     }
 }
